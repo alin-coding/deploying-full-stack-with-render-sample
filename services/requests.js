@@ -1,12 +1,11 @@
 const fetch = require('node-fetch'); // import node-fetch (enables the fetch API to be used server-side)
-const { Pool } = require('pg'); // import node-postgres
+const { Pool } = require('pg');
 
-const pool = new Pool({ // create connection to database
-  connectionString: process.env.DATABASE_URL,	// use DATABASE_URL environment variable from Render app 
-  ssl: {
-    rejectUnauthorized: false // don't check for SSL cert
-  }
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false
 });
+
 
 const getAllActivities = (req, res) => {
   const getString = 'SELECT * FROM "my_activities"'; // select all rows from the 'my_activities' table
